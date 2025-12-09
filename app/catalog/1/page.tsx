@@ -18,7 +18,7 @@ const product = {
   weight: '50 г',
   description: 'Классический краснодарский чай с глубоким, насыщенным вкусом. В аромате отчетливо слышны ноты сухофруктов, меда и легкая дымка. Идеален для тех, кто ценит традиции и крепкий, бодрящий настой.',
   images: [
-    'https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?q=80&w=2574&auto=format&fit=crop',
+    'https://medprogramcenter.com/wp-content/uploads/2025/12/chernyj.webp?q=80&w=2574&auto=format&fit=crop',
     'https://images.unsplash.com/photo-1565223011340-77a80b07e719?q=80&w=2670&auto=format&fit=crop',
     'https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=2574&auto=format&fit=crop'
   ],

@@ -27,7 +27,7 @@ const products: Product[] = [
     tags: ['Бодрящий', 'Утренний', 'Классика'],
     price: 550,
     weight: '50 г',
-    image: 'https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?q=80&w=2574&auto=format&fit=crop',
+    image: 'https://medprogramcenter.com/wp-content/uploads/2025/12/chernyj.webp?q=80&w=2574&auto=format&fit=crop',
     description: 'Крепкий, терпкий вкус с нотками сухофруктов. Идеальное начало дня.',
     moodColor: 'from-orange-950/40'
   },
