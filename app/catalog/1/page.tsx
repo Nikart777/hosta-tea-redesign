@@ -1,23 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
+import { useCart } from '@/context/CartContext'; // Подключаем хук
 import { 
-  ArrowLeft, 
-  Minus, 
-  Plus, 
-  ShoppingBag, 
-  Thermometer, 
-  Clock, 
-  Droplets, 
-  Wind, 
-  Star,
-  Leaf // Добавил недостающий импорт
+  ArrowLeft, Minus, Plus, Thermometer, Clock, 
+  Droplets, Leaf, Star 
 } from 'lucide-react';
 
 // --- MOCK DATA (Имитация данных товара) ---
-// В реальности мы бы получали это по params.id
 const product = {
   id: '1',
   title: 'Хоста Классик',
@@ -25,8 +17,6 @@ const product = {
   price: 550,
   weight: '50 г',
   description: 'Классический краснодарский чай с глубоким, насыщенным вкусом. В аромате отчетливо слышны ноты сухофруктов, меда и легкая дымка. Идеален для тех, кто ценит традиции и крепкий, бодрящий настой.',
-  harvest: 'Май 2024',
-  place: 'с. Калиновое Озеро, Сочи (500м над уровнем моря)',
   images: [
     'https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?q=80&w=2574&auto=format&fit=crop',
     'https://images.unsplash.com/photo-1565223011340-77a80b07e719?q=80&w=2670&auto=format&fit=crop',
@@ -43,10 +33,11 @@ const product = {
     time: '3-5 мин',
     amount: '5-7 г',
     volume: '500 мл'
-  }
+  },
+  harvest: 'Май 2024',
+  place: 'с. Калиновое Озеро, Сочи (500м над уровнем моря)'
 };
 
-// Компонент для диаграммы вкуса
 const TasteBar = ({ label, value, delay }: { label: string, value: number, delay: number }) => (
   <div className="mb-4">
     <div className="flex justify-between text-xs uppercase tracking-widest text-white/60 mb-1">
@@ -68,9 +59,22 @@ export default function ProductPage() {
   const [activeImage, setActiveImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const { scrollY } = useScroll();
-  
-  // Параллакс эффект для изображения
   const yImage = useTransform(scrollY, [0, 1000], [0, 200]);
+  
+  // --- ПОДКЛЮЧЕНИЕ К КОРЗИНЕ ---
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      title: product.title,
+      subtitle: product.subtitle,
+      price: product.price,
+      image: product.images[0],
+      quantity: quantity
+    });
+  };
+  // -----------------------------
 
   return (
     <div className="min-h-screen bg-hosta-dark text-white pt-24 pb-20">
@@ -222,7 +226,10 @@ export default function ProductPage() {
                 </div>
 
                 {/* Купить */}
-                <button className="flex-1 bg-hosta-gold text-hosta-dark h-14 rounded-sm font-bold uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_20px_rgba(207,161,86,0.3)] flex items-center justify-center gap-3">
+                <button 
+                  onClick={handleAddToCart}
+                  className="flex-1 bg-hosta-gold text-hosta-dark h-14 rounded-sm font-bold uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_20px_rgba(207,161,86,0.3)] flex items-center justify-center gap-3"
+                >
                   <span>В корзину</span>
                   <span className="w-1 h-1 bg-hosta-dark rounded-full" />
                   <span>{product.price * quantity} ₽</span>
