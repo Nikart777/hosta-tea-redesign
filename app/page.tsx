@@ -1,20 +1,26 @@
 import Hero from "@/components/hero/Hero";
 import Scrollytelling from "@/components/content/Scrollytelling";
-import BentoCatalog from "@/components/content/BentoCatalog"; // <-- Новый импорт
+import BentoCatalog from "@/components/content/BentoCatalog";
+import Journal from "@/components/content/Journal";
+import ContactSection from "@/components/content/ContactSection";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-stone-50">
+    <div className="flex flex-col min-h-screen bg-hosta-dark">
+      {/* 1. Кинематографичный Hero с видео */}
       <Hero />
       
-      {/* Блок Scrollytelling */}
+      {/* 2. История бренда через скролл */}
       <Scrollytelling />
-
-      {/* Блок Каталога (Bento Grid) */}
+      
+      {/* 3. Каталог в стиле Bento Grid (Светлая секция) */}
       <BentoCatalog />
-
-      {/* Временная заглушка в конце */}
-      <section className="h-40"></section>
-    </main>
+      
+      {/* 4. Блог / Журнал (Темная секция) */}
+      <Journal />
+      
+      {/* 5. Форма обратной связи (Атмосферная) */}
+      <ContactSection />
+    </div>
   );
 }
