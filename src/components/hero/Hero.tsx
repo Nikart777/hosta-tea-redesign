@@ -31,13 +31,13 @@ export default function Hero() {
           muted 
           loop 
           playsInline 
+          // Poster важен: он показывается, пока грузится видео или если включен режим экономии энергии
           poster="https://hosta-tea.ru/wp-content/uploads/2023/02/dsc04709-1.jpg"
           className="w-full h-full object-cover scale-105" 
         >
-          {/* Основной легкий файл */}
+          {/* Используем ТОЛЬКО легкий WebM. 
+              Убрали тяжелый MP4 фолбэк, чтобы мобильные устройства не пытались его загрузить. */}
           <source src="https://medprogramcenter.com/wp-content/uploads/2025/12/tea.webm" type="video/webm" />
-          {/* Фолбэк */}
-          <source src="https://hosta-tea.ru/wp-content/uploads/2023/02/chaj.mp4" type="video/mp4" />
         </video>
         
         {/* Градиенты для читаемости текста, но прозрачнее чем раньше */}
