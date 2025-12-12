@@ -10,7 +10,7 @@ const slides = [
     year: "1947",
     title: "Корни истории",
     description: "Всё началось в послевоенные годы. Именно тогда, в туманных ущельях Мацесты, были заложены первые семена, давшие жизнь самым северным чайным кустам в мире.",
-    img: "https://images.unsplash.com/photo-1596504382607-422842418e69?q=80&w=2574&auto=format&fit=crop",
+    img: "https://hosta-tea.ru/wp-content/uploads/2023/02/dsc04981.jpg?q=80&w=2574&auto=format&fit=crop",
     alt: "Старые чайные плантации"
   },
   {
@@ -18,7 +18,7 @@ const slides = [
     year: "43°",
     title: "Северная широта",
     description: "Уникальный климат. Зимой снег укрывает кусты, убивая вредителей. Это позволяет нам полностью отказаться от химии. Только природа, мороз и солнце.",
-    img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=2574&auto=format&fit=crop",
+    img: "https://hosta-tea.ru/wp-content/uploads/2023/02/dsc04858-1.jpg?q=80&w=2574&auto=format&fit=crop",
     alt: "Чай под снегом или в тумане"
   },
   {
@@ -26,7 +26,7 @@ const slides = [
     year: "3",
     title: "Верхних листа",
     description: "Мы не используем машины. Только чуткие руки наших чаеводов собирают флеши — почку и два верхних листочка. Именно в них сосредоточен весь вкус и польза.",
-    img: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=2521&auto=format&fit=crop",
+    img: "https://hosta-tea.ru/wp-content/uploads/2023/02/dsc04832.jpg?q=80&w=2521&auto=format&fit=crop",
     alt: "Ручной сбор чая"
   }
 ];

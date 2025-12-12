@@ -53,3 +53,14 @@ body {
   0% { transform: scale(1); }
   100% { transform: scale(1.1); }
 }
+
+/* Анимация для бесконечной прокрутки галереи */
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 60s linear infinite; /* Увеличил время для плавности */
+  will-change: transform;
+}
