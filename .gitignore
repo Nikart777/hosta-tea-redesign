@@ -44,3 +44,4 @@ next-env.d.ts
 
 # ALLOW DB FOR VERCEL DEMO (COMMIT THIS FILE)
 !dev.db
+!prisma/dev.db
