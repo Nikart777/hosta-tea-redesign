@@ -9,21 +9,19 @@ const categories = [
   {
     id: 'black',
     title: 'Черный',
-    subtitle: 'Классика',
-    description: 'Глубокий и терпкий',
-    // Цвет: Темный янтарь / Крепкий настой
-    gradient: 'bg-gradient-to-br from-[#4e342e] to-[#281813]',
+    subtitle: 'Свежесть',
+    description: 'Классический вкус',
+    gradient: 'bg-gradient-to-br from-[#1a1a1a] to-[#3d2b1f]',
     colSpan: 'md:col-span-2',
-    letter: 'Ч', 
-    textColor: 'text-[#efebe9]' // Светлый беж
+    letter: 'Ч',
+    textColor: 'text-[#efebe9]'
   },
   {
     id: 'green',
     title: 'Зеленый',
-    subtitle: 'Свежесть',
-    description: 'Весенний сбор',
-    // Цвет: Приглушенный травяной / Матча
-    gradient: 'bg-gradient-to-br from-[#558b2f] to-[#33691e]',
+    subtitle: 'Аромат',
+    description: 'Натуральный тонус',
+    gradient: 'bg-gradient-to-br from-[#2d4a2d] to-[#4c6b4c]',
     colSpan: 'md:col-span-1 md:row-span-2',
     letter: 'З',
     textColor: 'text-[#f1f8e9]'
@@ -31,10 +29,9 @@ const categories = [
   {
     id: 'red',
     title: 'Красный',
-    subtitle: 'Аромат',
-    description: 'Ягодные ноты',
-    // Цвет: Гранат / Ройбуш
-    gradient: 'bg-gradient-to-br from-[#9c3629] to-[#681e16]',
+    subtitle: 'Редкость',
+    description: 'Глубокий профиль',
+    gradient: 'bg-gradient-to-br from-[#5c1c13] to-[#8a2e22]',
     colSpan: 'md:col-span-1',
     letter: 'К',
     textColor: 'text-[#ffebee]'
@@ -42,36 +39,44 @@ const categories = [
   {
     id: 'yellow',
     title: 'Желтый',
-    subtitle: 'Редкость',
-    description: 'Томленый вкус',
-    // Цвет: Золотистая охра / Мед
-    gradient: 'bg-gradient-to-br from-[#fbc02d] to-[#f57f17]',
+    subtitle: 'Элитный',
+    description: 'Уникальный сорт',
+    gradient: 'bg-gradient-to-br from-[#cfa156] to-[#e6c28a]',
     colSpan: 'md:col-span-1',
     letter: 'Ж',
-    textColor: 'text-[#3e2723]' // Темный текст для контраста
+    textColor: 'text-[#3e2723]'
   },
   {
-    id: 'mix', // Ссылка на ассорти
-    title: 'Наборы',
-    subtitle: 'Подарок',
-    description: 'Коллекция вкусов',
-    // Цвет: Благородный серый / Камень
-    gradient: 'bg-gradient-to-br from-[#546e7a] to-[#37474f]',
-    colSpan: 'md:col-span-2',
-    letter: 'А', // Ассорти
-    textColor: 'text-[#eceff1]'
+    id: 'gaba',
+    title: 'ГАБА',
+    subtitle: 'Тренд',
+    description: 'Особая ферментация',
+    gradient: 'bg-gradient-to-br from-[#3b1e54] to-[#5a3a7b]',
+    colSpan: 'md:col-span-1',
+    letter: 'Г',
+    textColor: 'text-white'
+  },
+  {
+    id: 'gifts',
+    title: 'Подарки',
+    subtitle: 'Наборы',
+    description: 'Для особенных моментов',
+    gradient: 'bg-gradient-to-br from-[#34495e] to-[#2c3e50]',
+    colSpan: 'md:col-span-1',
+    letter: 'П',
+    textColor: 'text-white'
   }
 ];
 
 export default function BentoCatalog() {
   return (
-    <section className="py-24 bg-[#fdfbf7] relative z-10">
-      
+    <section className="py-24 bg-hosta-mist relative z-10">
+
       {/* Фон: еле заметная текстура бумаги на всей секции */}
-      <div className="absolute inset-0 opacity-60 pointer-events-none mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]" />
-      
+      <div className="absolute inset-0 opacity-40 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]" />
+
       <div className="container mx-auto px-4 relative">
-        
+
         {/* Заголовок */}
         <div className="mb-16 md:flex md:items-end md:justify-between">
           <motion.div
@@ -95,8 +100,8 @@ export default function BentoCatalog() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="hidden md:block pb-2"
           >
-             <Link 
-              href="/catalog" 
+            <Link
+              href="/catalog"
               className="text-[#2c1810] border-b border-[#2c1810]/30 hover:border-[#2c1810] transition-colors pb-1 text-sm uppercase tracking-widest"
             >
               Перейти в каталог
@@ -116,10 +121,10 @@ export default function BentoCatalog() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <Link href={`/catalog?category=${cat.id}`} className="block h-full w-full relative">
-                
+
                 {/* 1. Фон (Градиент) */}
                 <div className={`absolute inset-0 ${cat.gradient} transition-transform duration-1000 ease-out group-hover:scale-105`} />
-                
+
                 {/* 2. Текстура шума (Grain) - создает эффект бумаги/керамики */}
                 <div className="absolute inset-0 opacity-40 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" />
 
@@ -130,13 +135,13 @@ export default function BentoCatalog() {
 
                 {/* 4. Контент */}
                 <div className="absolute inset-0 p-8 flex flex-col justify-between z-10">
-                  
+
                   {/* Верх: Субтитр и иконка перехода */}
                   <div className="flex justify-between items-start">
                     <span className={`text-xs font-bold uppercase tracking-[0.2em] opacity-70 ${cat.textColor}`}>
                       {cat.subtitle}
                     </span>
-                    
+
                     <div className={`w-8 h-8 rounded-full border border-current flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 ${cat.textColor}`}>
                       <ArrowUpRight size={14} />
                     </div>
@@ -160,15 +165,15 @@ export default function BentoCatalog() {
             </motion.div>
           ))}
         </div>
-        
+
         {/* Кнопка для мобильных */}
         <div className="mt-12 text-center md:hidden">
-           <Link 
-              href="/catalog" 
-              className="inline-block px-8 py-3 border border-[#2c1810]/30 text-[#2c1810] uppercase tracking-widest text-xs font-bold rounded-full"
-            >
-              Смотреть всё
-            </Link>
+          <Link
+            href="/catalog"
+            className="inline-block px-8 py-3 border border-[#2c1810]/30 text-[#2c1810] uppercase tracking-widest text-xs font-bold rounded-full"
+          >
+            Смотреть всё
+          </Link>
         </div>
 
       </div>

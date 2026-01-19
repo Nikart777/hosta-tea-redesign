@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String   @id
+  slug        String   @unique
+  title       String
+  subtitle    String?
+  category    String
+  teaType     String?
+  teaKind     String?
+  teaGrade    String?
+  description String
+  images      String // JSON stringified array
+  brewing     String // JSON stringified object
+  characteristics String // JSON stringified array
+  harvest     String?
+  place       String?
+  moodColor   String?
+  
+  variants    ProductVariant[]
+}
+
+model ProductVariant {
+  id        Int     @id @default(autoincrement())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  weight    String
+  price     Int
+  packaging String?
+  inStock   Boolean @default(true)
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status    String   @default("new") // new, paid, shipped, failed
+  
+  customerFio   String
+  customerPhone String
+  customerEmail String
+  customerCity  String
+  deliveryAddress String // CDEK Note
+  
+  items     String // JSON snapshot of items
+  total     Float
+  promoCode String?
+  discount  Float?
+}
+
+model Post {
+  id       Int    @id @default(autoincrement())
+  slug     String @unique
+  title    String
+  content  String
+  excerpt  String
+  image    String
+  date     String
+  category String
+  keywords String // JSON stringified array
+}

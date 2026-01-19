@@ -13,17 +13,17 @@ export default function Footer() {
       { name: 'Красный чай', href: '/catalog?category=red' },
       { name: 'Желтый чай', href: '/catalog?category=yellow' },
       { name: 'ГАБА - чай', href: '/catalog?category=gaba' },
-      { name: 'Ассорти (Наборы)', href: '/catalog?category=mix' },
+      { name: 'Подарки', href: '/catalog?category=gifts' },
     ],
     company: [
       { name: 'О плантации', href: '/about' },
-      { name: 'Экскурсии', href: '/excursions' },
       { name: 'Блог', href: '/blog' },
       { name: 'Контакты', href: '/contacts' },
-      { name: 'Акционерам', href: '/shareholders' }, // Перенесли сюда
+      { name: 'Акционерам', href: '/shareholders' },
     ],
     help: [
-      { name: 'Оплата и доставка', href: '/delivery' }, // Перенесли сюда
+      { name: 'Сертификаты качества', href: '/certificates' },
+      { name: 'Оплата и доставка', href: '/delivery' },
       { name: 'Возврат товара', href: '/returns' },
       { name: 'Публичная оферта', href: '/offer' },
       { name: 'Политика конфиденциальности', href: '/privacy' },
@@ -32,13 +32,13 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-[#050805] text-white overflow-hidden pt-20">
-      
+
       {/* Текстура */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-5 pointer-events-none" />
-      
+
       <div className="container mx-auto px-4 pb-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-20">
-          
+
           {/* Логотип */}
           <div className="lg:col-span-4 space-y-6">
             <Link href="/" className="inline-block group">
@@ -46,19 +46,19 @@ export default function Footer() {
                 ХОСТА<span className="text-white/30 group-hover:text-hosta-gold/50">ЧАЙ</span>
               </div>
               <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 block mt-2 group-hover:text-hosta-gold/60 transition-colors">
-                Душа северных гор • 1947
+                Первый российский органический чай • 1947
               </span>
             </Link>
-            
+
             <p className="text-white/40 text-sm leading-relaxed max-w-xs font-light">
-              Экологически чистый чай, выращенный в зоне рискованного земледелия. Закаленный морозом и согретый южным солнцем.
+              Экологически чистый чай, выращенный в уникальных климатических условиях Сочи. Закаленный морозом и согретый южным солнцем.
             </p>
 
             <div className="flex gap-4 pt-4">
               {[Instagram, Facebook, Youtube, Send].map((Icon, i) => (
-                <a 
-                  key={i} 
-                  href="#" 
+                <a
+                  key={i}
+                  href="#"
                   className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-hosta-dark hover:bg-hosta-gold transition-all duration-300"
                 >
                   <Icon size={18} />
@@ -107,33 +107,38 @@ export default function Footer() {
             </ul>
           </div>
 
-           {/* Контакты / Подписка */}
-           <div className="lg:col-span-2">
-             <h4 className="text-hosta-gold text-xs uppercase tracking-widest font-bold mb-6">Контакты</h4>
-             <div className="space-y-4 text-sm text-white/60">
-                <p>г. Сочи, с. Калиновое Озеро, ул. Центральная 10</p>
-                <a href="tel:+78622659835" className="block hover:text-white transition-colors">+7 (862) 265 98 35</a>
-                <a href="mailto:hosta-chai@mail.ru" className="block hover:text-white transition-colors">hosta-chai@mail.ru</a>
-             </div>
-           </div>
+          {/* Опт и Контакты */}
+          <div className="lg:col-span-2">
+            <h4 className="text-hosta-gold text-xs uppercase tracking-widest font-bold mb-6">Оптовикам</h4>
+            <div className="space-y-4 text-sm text-white/60">
+              <p>Минимальный заказ от 30 000 руб.</p>
+              <p className="text-xs">Запросите прайс-лист по телефону или почте.</p>
+            </div>
+            <div className="mt-8 space-y-4 text-sm text-white/60">
+              <h4 className="text-hosta-gold text-[10px] uppercase tracking-widest font-bold mb-2">Связь</h4>
+              <a href="tel:+78622659835" className="block hover:text-white transition-colors">+7 (862) 265 98 35</a>
+              <a href="tel:+79882333480" className="block hover:text-white transition-colors">+7 (988) 233 34 80</a>
+              <a href="mailto:hosta-chai@mail.ru" className="block hover:text-white transition-colors">hosta-chai@mail.ru</a>
+            </div>
+          </div>
         </div>
 
         {/* --- КНОПКА РАЗРАБОТЧИКА (ART-VISION) --- */}
         <div className="flex justify-center mb-8">
-           <a 
-             href="https://art-vision.online" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             className="group relative inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-hosta-gold/50 transition-all duration-500 overflow-hidden"
-           >
-              {/* Фоновый блик */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-hosta-gold/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-              
-              <span className="relative text-[10px] uppercase tracking-[0.2em] text-white/60 group-hover:text-white transition-colors">
-                Site by <span className="font-bold text-white group-hover:text-hosta-gold">ART-VISION</span>
-              </span>
-              <ExternalLink size={12} className="relative text-white/40 group-hover:text-hosta-gold transition-colors" />
-           </a>
+          <a
+            href="https://art-vision.online"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-hosta-gold/50 transition-all duration-500 overflow-hidden"
+          >
+            {/* Фоновый блик */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-hosta-gold/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+
+            <span className="relative text-[10px] uppercase tracking-[0.2em] text-white/60 group-hover:text-white transition-colors">
+              Site by <span className="font-bold text-white group-hover:text-hosta-gold">ART-VISION</span>
+            </span>
+            <ExternalLink size={12} className="relative text-white/40 group-hover:text-hosta-gold transition-colors" />
+          </a>
         </div>
       </div>
 
@@ -144,12 +149,12 @@ export default function Footer() {
             © {currentYear} АО «Хоста-чай»
           </p>
           <div className="flex gap-6">
-             <Link href="/privacy" className="text-[10px] text-white/20 hover:text-white/60 uppercase tracking-widest transition-colors">
-               Конфиденциальность
-             </Link>
-             <Link href="/offer" className="text-[10px] text-white/20 hover:text-white/60 uppercase tracking-widest transition-colors">
-               Оферта
-             </Link>
+            <Link href="/privacy" className="text-[10px] text-white/20 hover:text-white/60 uppercase tracking-widest transition-colors">
+              Конфиденциальность
+            </Link>
+            <Link href="/offer" className="text-[10px] text-white/20 hover:text-white/60 uppercase tracking-widest transition-colors">
+              Оферта
+            </Link>
           </div>
         </div>
       </div>

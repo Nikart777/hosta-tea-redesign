@@ -2,21 +2,22 @@
 
 @theme {
   /* Наша палитра: глубокие, природные цвета Сочи */
-  --color-hosta-dark: #1a2e1a; /* Темный лесной */
-  --color-hosta-green: #2d4a2d; /* Основной зеленый */
-  --color-hosta-gold: #cfa156; /* Золото (чайный настой) */
-  --color-hosta-accent: #e63946; /* Красный акцент (для кнопок действия) */
-  --color-hosta-mist: #f4f7f5; /* Туманный белый */
-  --color-hosta-text: #1f2937; /* Основной текст */
-  
+  --color-hosta-dark: #1a2e1a;
+  --color-hosta-green: #2d4a2d;
+  --color-hosta-gold: #cfa156;
+  --color-hosta-accent: #e63946;
+  --color-hosta-mist: #fafaf9;
+  --color-hosta-text: #1c1c1c;
+
   /* Анимации */
   --animate-fade-in: fadeIn 1s ease-in-out;
   --animate-slow-zoom: slowZoom 20s infinite alternate;
 }
 
-/* Настройки для кинематографичной плавности */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  /* Prevent horizontal scroll globally */
 }
 
 body {
@@ -24,9 +25,19 @@ body {
   color: var(--color-hosta-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  /* Prevent horizontal scroll globally */
+  width: 100%;
 }
 
-/* Убираем стандартные полосы прокрутки для чистоты кадра */
+/* Ensure images in articles don't overflow */
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  /* rounded-xl */
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -45,22 +56,36 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slowZoom {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.1); }
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.1);
+  }
 }
 
-/* Анимация для бесконечной прокрутки галереи */
 @keyframes scroll-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-scroll-left {
-  animation: scroll-left 60s linear infinite; /* Увеличил время для плавности */
+  animation: scroll-left 60s linear infinite;
   will-change: transform;
 }

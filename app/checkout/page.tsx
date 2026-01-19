@@ -4,14 +4,17 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
-import { 
-  ArrowLeft, CreditCard, ShieldCheck, Tag, Loader2, Check 
+import {
+  ArrowLeft, CreditCard, ShieldCheck, Tag, Loader2, Check, Truck
 } from 'lucide-react';
+import { createOrder } from '../actions/checkout';
+import { useRouter } from 'next/navigation';
 
 export default function CheckoutPage() {
-  const { items, totalPrice } = useCart();
+  const { items, totalPrice, clearCart } = useCart();
+  const router = useRouter();
   const [isClient, setIsClient] = useState(false);
-  
+
   // Состояние формы
   const [formData, setFormData] = useState({
     fio: '',
@@ -27,7 +30,7 @@ export default function CheckoutPage() {
   const [promoStatus, setPromoStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   // Логика оплаты
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Избегаем ошибок гидратации
   useEffect(() => {
@@ -37,10 +40,11 @@ export default function CheckoutPage() {
   const handleApplyPromo = () => {
     if (!promoCode) return;
     setPromoStatus('loading');
-    
+
     // Имитация проверки промокода
     setTimeout(() => {
-      if (promoCode.toUpperCase() === 'HOSTA10') {
+      const code = promoCode.toUpperCase().trim();
+      if (code === 'HOSTA10' || code === 'ХОСТА10') {
         setDiscount(totalPrice * 0.1); // 10% скидка
         setPromoStatus('success');
       } else {
@@ -50,15 +54,31 @@ export default function CheckoutPage() {
     }, 1000);
   };
 
-  const handlePayment = (e: React.FormEvent) => {
+  const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsProcessing(true);
-    
-    // Здесь должна быть логика перенаправления на платежный шлюз (Сбер, Тинькофф, ЮКасса)
-    setTimeout(() => {
-      alert('Переход на страницу банка...');
-      setIsProcessing(false);
-    }, 1500);
+    setIsSubmitting(true);
+
+    const result = await createOrder({
+      customerFio: formData.fio,
+      customerPhone: formData.phone,
+      customerEmail: formData.email,
+      customerCity: formData.city,
+      deliveryAddress: formData.notes,
+      items: items,
+      totalPrice: totalPrice,
+      promoCode: promoStatus === 'success' ? promoCode : undefined,
+      discount: discount,
+    });
+
+    if (result.success) {
+      clearCart();
+      alert(`Заказ #${result.orderId} успешно оформлен!`);
+      router.push('/');
+    } else {
+      alert('Ошибка при оформлении заказа. Попробуйте еще раз.');
+    }
+
+    setIsSubmitting(false);
   };
 
   if (!isClient) return null;
@@ -80,13 +100,13 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-[#0a120a] text-white pt-28 pb-20">
-      
+
       {/* Фоновая атмосфера */}
       <div className="fixed inset-0 bg-gradient-to-br from-hosta-green/10 to-[#0a120a] pointer-events-none z-0" />
       <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 pointer-events-none z-0" />
 
       <div className="container mx-auto px-4 relative z-10">
-        
+
         {/* Заголовок */}
         <div className="mb-10 flex items-center gap-4">
           <Link href="/catalog" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-white transition-all">
@@ -96,27 +116,26 @@ export default function CheckoutPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
-          
+
           {/* --- ЛЕВАЯ КОЛОНКА: ФОРМА --- */}
           <div className="lg:col-span-7">
             <form id="checkout-form" onSubmit={handlePayment} className="space-y-8">
-              
+
               {/* Секция: Личные данные */}
               <div className="bg-white/5 p-8 rounded-sm border border-white/5 backdrop-blur-sm">
                 <h2 className="text-xl font-playfair text-hosta-gold mb-6 flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full border border-hosta-gold flex items-center justify-center text-xs font-bold font-inter">1</span>
                   Контактные данные
                 </h2>
-                
+
                 <div className="space-y-6">
                   {/* ФИО */}
                   <div className="relative group">
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       id="fio"
                       required
                       value={formData.fio}
-                      onChange={(e) => setFormData({...formData, fio: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, fio: e.target.value })}
                       className="w-full bg-transparent border-b border-white/20 py-3 text-white outline-none focus:border-hosta-gold transition-colors placeholder-transparent peer"
                       placeholder="ФИО"
                     />
@@ -128,12 +147,12 @@ export default function CheckoutPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Телефон */}
                     <div className="relative group">
-                      <input 
-                        type="tel" 
+                      <input
+                        type="tel"
                         id="phone"
                         required
                         value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         className="w-full bg-transparent border-b border-white/20 py-3 text-white outline-none focus:border-hosta-gold transition-colors placeholder-transparent peer"
                         placeholder="Телефон"
                       />
@@ -144,12 +163,12 @@ export default function CheckoutPage() {
 
                     {/* Email */}
                     <div className="relative group">
-                      <input 
-                        type="email" 
+                      <input
+                        type="email"
                         id="email"
                         required
                         value={formData.email}
-                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="w-full bg-transparent border-b border-white/20 py-3 text-white outline-none focus:border-hosta-gold transition-colors placeholder-transparent peer"
                         placeholder="Email"
                       />
@@ -164,19 +183,25 @@ export default function CheckoutPage() {
               {/* Секция: Доставка */}
               <div className="bg-white/5 p-8 rounded-sm border border-white/5 backdrop-blur-sm">
                 <h2 className="text-xl font-playfair text-hosta-gold mb-6 flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full border border-hosta-gold flex items-center justify-center text-xs font-bold font-inter">2</span>
-                  Адрес доставки
                 </h2>
-                
+
+                <div className="bg-hosta-gold/10 border border-hosta-gold/20 p-4 rounded-sm mb-6 text-sm text-hosta-gold/80">
+                  <p className="font-bold flex items-center gap-2 mb-1">
+                    <Truck size={16} />
+                    Важная информация
+                  </p>
+                  Доставка осуществляется только транспортной компанией <span className="text-white font-bold">СДЭК</span>.
+                </div>
+
                 <div className="space-y-6">
                   {/* Населенный пункт */}
                   <div className="relative group">
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       id="city"
                       required
                       value={formData.city}
-                      onChange={(e) => setFormData({...formData, city: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       className="w-full bg-transparent border-b border-white/20 py-3 text-white outline-none focus:border-hosta-gold transition-colors placeholder-transparent peer"
                       placeholder="Город"
                     />
@@ -185,19 +210,19 @@ export default function CheckoutPage() {
                     </label>
                   </div>
 
-                  {/* Примечание */}
+                  {/* Примечание СДЭК */}
                   <div className="relative group">
-                    <textarea 
+                    <textarea
                       id="notes"
-                      required // Как вы просили - обязательно
+                      required
                       rows={3}
                       value={formData.notes}
-                      onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                       className="w-full bg-transparent border-b border-white/20 py-3 text-white outline-none focus:border-hosta-gold transition-colors placeholder-transparent peer resize-none"
-                      placeholder="Примечание"
+                      placeholder="Адрес пункта СДЭК"
                     />
                     <label htmlFor="notes" className="absolute left-0 top-3 text-white/40 text-sm transition-all peer-focus:-top-2 peer-focus:text-xs peer-focus:text-hosta-gold peer-valid:-top-2 peer-valid:text-xs peer-valid:text-white/60 cursor-text">
-                      Примечание к заказу (обязательно) *
+                      Адрес удобного пункта выдачи СДЭК (обязательно) *
                     </label>
                   </div>
                 </div>
@@ -209,7 +234,7 @@ export default function CheckoutPage() {
           {/* --- ПРАВАЯ КОЛОНКА: СВОДКА (STICKY) --- */}
           <div className="lg:col-span-5">
             <div className="sticky top-32 bg-white/5 border border-white/10 rounded-sm p-8 backdrop-blur-md shadow-2xl">
-              
+
               <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-6 pb-4 border-b border-white/10">
                 Ваш заказ
               </h3>
@@ -235,14 +260,14 @@ export default function CheckoutPage() {
               {/* Промокод */}
               <div className="mb-8">
                 <div className="flex gap-2">
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     placeholder="Промокод"
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
                     className="flex-1 bg-white/5 border border-white/10 px-4 py-2 text-sm text-white focus:border-hosta-gold outline-none rounded-sm uppercase placeholder:normal-case"
                   />
-                  <button 
+                  <button
                     type="button"
                     onClick={handleApplyPromo}
                     disabled={promoStatus === 'loading' || !promoCode}
@@ -274,13 +299,13 @@ export default function CheckoutPage() {
               </div>
 
               {/* Кнопка оплаты (ВНЕ ФОРМЫ, но триггерит форму через form="checkout-form") */}
-              <button 
+              <button
                 type="submit"
                 form="checkout-form"
-                disabled={isProcessing}
+                disabled={isSubmitting}
                 className="w-full bg-hosta-gold text-hosta-dark py-4 rounded-sm font-bold uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_20px_rgba(207,161,86,0.3)] flex items-center justify-center gap-3 mb-6 disabled:opacity-70 disabled:cursor-not-allowed group"
               >
-                {isProcessing ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="animate-spin" size={20} />
                     Обработка...
@@ -293,21 +318,16 @@ export default function CheckoutPage() {
                 )}
               </button>
 
-              {/* Дисклеймер */}
-              <div className="text-[10px] text-white/30 leading-relaxed text-center">
-                <div className="flex items-center justify-center gap-2 mb-2 text-white/40">
-                  <ShieldCheck size={12} />
-                  <span>Безопасная оплата картой банка</span>
-                </div>
-                <p>
-                  Ваши личные данные будут использоваться для обработки ваших заказов, упрощения вашей работы с сайтом и для других целей, описанных в нашей <Link href="/privacy" className="underline hover:text-hosta-gold">политике конфиденциальности</Link>.
-                </p>
+              <div className="flex items-center gap-2 justify-center text-white/20 text-xs">
+                <ShieldCheck size={14} />
+                <span>Безопасная оплата через шлюз банка</span>
               </div>
 
             </div>
           </div>
 
         </div>
+
       </div>
     </div>
   );

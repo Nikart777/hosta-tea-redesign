@@ -15,9 +15,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   // Забираем данные и методы из глобального мозга
   const { items, removeFromCart, updateQuantity, totalPrice } = useCart();
 
-  const freeShippingThreshold = 5000;
-  const progress = Math.min((totalPrice / freeShippingThreshold) * 100, 100);
-  const remainingForFree = freeShippingThreshold - totalPrice;
+
 
   useEffect(() => {
     if (isOpen) {
@@ -60,25 +58,6 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 <button onClick={onClose} className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/60 hover:text-white transition-all">
                   <X size={20} />
                 </button>
-              </div>
-
-              <div className="bg-white/5 rounded-lg p-4 border border-white/5">
-                <div className="flex items-center gap-3 text-hosta-gold mb-3">
-                   <Truck size={18} />
-                   <span className="text-xs uppercase tracking-widest font-bold">
-                     {remainingForFree > 0 
-                       ? `До бесплатной доставки: ${remainingForFree} ₽` 
-                       : 'Бесплатная доставка доступна!'}
-                   </span>
-                </div>
-                <div className="h-1 bg-white/10 rounded-full overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: `${progress}%` }}
-                    transition={{ duration: 1 }}
-                    className="h-full bg-hosta-gold rounded-full shadow-[0_0_10px_#cfa156]"
-                  />
-                </div>
               </div>
             </div>
 
